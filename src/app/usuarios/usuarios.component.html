@@ -1,0 +1,58 @@
+
+<div class="card border-secondary mb-3" >
+  <div class="card-header">All users</div>
+  <div class="card-body text-secondary">
+    <h5 class="card-title">User list</h5>
+
+    <div type="button" class="my-2 text-left">
+      <button type="button" class="btn btn-rouded btn-outline-info" [routerLink]="['/usuarios/form']">Create user</button>
+    </div>
+
+    <div *ngIf="usuarios?.length==0" class="alert alert-info">
+      No data registry.
+    </div>
+
+    <table class="table table-bordered table-striped" *ngIf="usuarios?.length>0">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>User image</th>
+          <th>Name</th>
+          <th>Last name</th>
+          <th>Email</th>
+          <th>Phone number</th>
+          <th>Age</th>
+          <th>Region</th>
+          <th>Country</th>
+          <th>Date</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td><button type="button" [routerLink]="['/usuarios/ver', usuario.id]" class="btn btn-outline-success btn-sm">{{usuario.id}}</button></td>
+          <td>
+          <!--  <img [routerLink]="['/usuarios/ver', usuario.id]" src="http://localhost:8080/images/devil_user.png" alt="Sin foto" class="img-thumbnail rounded" style="width:60px; cursor:pointer;"> -->
+            <img [routerLink]="['/usuarios/ver', usuario.id]" *ngIf="!usuario?.foto" src="http://localhost:8080/images/devil_user.png" alt="Sin foto" class="img-thumbnail rounded"  style="width:60px; cursor:pointer;">
+            <img [routerLink]="['/usuarios/ver', usuario.id]" *ngIf="usuario?.foto" src="http://localhost:8080/api/uploads/img/{{usuario.foto}}" alt="{{usuario.foto}}" class="img-thumbnail rounded"  style="width:60px; cursor:pointer;">
+          </td>
+          <td>{{usuario.nombre}}</td>
+          <td>{{usuario.apellido}}</td>
+          <td>{{usuario.email}}</td>
+          <td>{{usuario.number}}</td>
+          <td>{{usuario.edad}}</td>
+          <td>{{usuario.region.nombre.toUpperCase()}}</td>
+          <td>{{usuario.pais.nombre.toUpperCase()}}</td>
+          <td>{{usuario.createAt}}</td>
+          <td><button  type="button" name="editar" [routerLink]="['/usuarios/form', usuario.id]" class="btn btn-outline-info btn-sm">Editar</button></td>
+          <td><button  type="button" name="eliminar" (click)='delete(usuario)' class="btn btn-outline-danger btn-sm">Eliminar</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!--VALIDA Q EL PAGINADOR EXISTA Y TAMBN SE INJECTA -->
+    <paginator-nav *ngIf="paginador" [paginador] = "paginador"></paginator-nav>
+
+  </div>
+</div>

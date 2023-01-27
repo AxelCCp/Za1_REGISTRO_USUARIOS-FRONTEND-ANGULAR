@@ -1,0 +1,64 @@
+<div class="form-group row">
+      <div class="col-sm-6">
+        <button class="btn btn-outline-secondary my-5 text-left" role="button" routerLink="/usuarios">Return</button>
+      </div>
+</div>
+
+<div class="card bg-outline-dark text-dark">
+  <div class="card-header">{{title}}</div>
+  <div class="card-body">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+
+
+
+          <!--*ngIf="cliente" : se pone para q no de error en la consola, cuando se carga primero la página antes q el cliente.-->
+          <ul *ngIf="usuario" class="list-group text-dark mb-3">
+            <li class="list-group-item"><span style="color: #2E86C1;">Name : </span>{{usuario.nombre}}</li>
+            <li class="list-group-item"><span style="color: #2E86C1;">Last name : </span>{{usuario.apellido}}</li>
+            <li class="list-group-item"><span style="color: #2E86C1;">Email : </span>{{usuario.email}}</li>
+            <li class="list-group-item"><span style="color: #2E86C1;">Phone number : </span>{{usuario.number}}</li>
+            <li class="list-group-item"><span style="color: #2E86C1;">Age : </span>{{usuario.edad}}</li>
+            <li class="list-group-item"><span style="color: #2E86C1;">Region : </span>{{usuario.region.nombre.toUpperCase()}}</li>
+            <li class="list-group-item"><span style="color: #2E86C1;">Country : </span>{{usuario.pais.nombre.toUpperCase()}}</li>
+            <li class="list-group-item"><span style="color: #2E86C1;">Date : </span>{{usuario.createAt | date:"fullDate"}}</li>
+          </ul>
+
+
+
+          <!--seleccionarFoto($event) : con $event se accede al archivo q se está enviando en el front.   -->
+          <div class="input-group mb-3">
+            <input (change)="seleccionarFoto($event)" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <button (click)="subirFoto()" [disabled]="!fotoSeleccionada" class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Subir</button>
+          </div>
+
+
+          <!-- barra se progreso -->
+          <div class="progress" *ngIf="progreso > 0" style="height: 40px;">
+            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" aria-label="Warning striped example" [ngStyle]="{width: progreso + '%'}" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100">
+              {{progreso}}%
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="col-sm" style="text-align:center;">
+              <img *ngIf="!usuario?.foto" src="http://localhost:8080/images/devil_user.png" alt="Sin foto" class="img-thumbnail rounded" style="width:400px; cursor:pointer;">
+              <img *ngIf="usuario?.foto" src="http://localhost:8080/api/uploads/img/{{usuario.foto}}" alt="{{usuario.foto}}" class="img-thumbnail rounded" style="width:400px; cursor:pointer;">
+        </div>
+
+        <!--
+        <div class="col-sm">
+            ngIf : SI EXISTE EL CLIENTE Y LA FOTO, CARGA LA FOTO
+            <img *ngIf="cliente?.foto" src="http://localhost:8080/api/uploads/img/{{cliente.foto}}" alt="{{cliente.foto}}" class="img-thumbnail rounded">
+        </div>
+        -->
+
+      </div>
+    </div>
+
+  </div>
+</div>

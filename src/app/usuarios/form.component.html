@@ -1,0 +1,128 @@
+<div class="form-group row">
+      <div class="col-sm-6">
+        <button class="btn btn-outline-secondary my-5 text-left" role="button" routerLink="/usuarios">Return</button>
+      </div>
+</div>
+
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+  <li  *ngFor="let err of errores">{{err}}</li>
+</ul>
+
+<div class="card bg-outline-dark text-dark">
+
+  <div class="card-header">{{title}}</div>
+
+
+  <div class="card-body">
+
+    <!--<form (ngSubmit) = "create()">-->
+    <form #usuarioForm = "ngForm">
+      <div class="form-group row">
+        <label for="nombre" class="col-form-label col-sm-2">Name</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="usuario.nombre" name="nombre"  #nombre="ngModel"> <!-- required minlength="2" -->
+          <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+            <div *ngIf="nombre.errors.required">
+              The name is required.
+            </div>
+            <div *ngIf="nombre.errors.minlength">
+              The name must have more than 2 characters.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="apellido" class="col-form-label col-sm-2">Last name</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="usuario.apellido" name="apellido"  #apellido="ngModel"> <!--required-->
+          <div class="alert alert-danger" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
+            <div *ngIf="apellido.errors.required">
+              The last name is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="email" class="col-form-label col-sm-2">Email</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="usuario.email" name="email" #email="ngModel"> <!--required email-->
+          <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+            <div *ngIf="email.errors.required">
+              The email is required.
+            </div>
+            <div *ngIf="email.errors.email">
+              It must have a valid email format.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="number" class="col-form-label col-sm-2">Phone number</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="usuario.number" name="number" #number="ngModel"> <!--required email-->
+          <div class="alert alert-danger" *ngIf="number.invalid && (number.dirty || number.touched)">
+            <div *ngIf="number.errors.required">
+              The phone number is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="edad" class="col-form-label col-sm-2">Age</label>
+        <div class="col-sm-6">
+          <input type="number" class="form-control" [(ngModel)]="usuario.edad" name="edad" #edad="ngModel"> <!--required email-->
+          <div class="alert alert-danger" *ngIf="edad.invalid && (edad.dirty || edad.touched)">
+            <div *ngIf="edad.errors.required">
+              The age is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="region" class="col-form-label col-sm-2">Region</label>
+        <div class="col-sm-6">
+          <select [compareWith]="compararRegion" class="form-control" [(ngModel)]="usuario.region" name="region"> <!--style="width:620px;" .... compararRegion : ESTO ES PARA DEJAR MARCADA LA REGIÓN DEL CLIENTE-->
+            <option [ngValue]="undefined">--- Select a region ---</option>
+            <option *ngFor="let region of regiones" [ngValue]="region">{{region.nombre}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="pais" class="col-form-label col-sm-2">Country</label>
+        <div class="col-sm-6">
+          <select [compareWith]="compararPais" class="form-control" [(ngModel)]="usuario.pais" name="pais"> <!--style="width:620px;" .... compararRegion : ESTO ES PARA DEJAR MARCADA LA REGIÓN DEL CLIENTE-->
+            <option [ngValue]="undefined">--- Select a country ---</option>
+            <option *ngFor="let pais of paises" [ngValue]="pais">{{pais.nombre}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="createAt" class="col-form-label col-sm-2">Date</label>
+        <div class="col-sm-6">
+          <input type="date" class="form-control" [(ngModel)]="usuario.createAt" name="createAt">
+        </div>
+      </div>
+
+      <br><br>
+
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <button class="btn btn-outline-primary" role="button" (click)='create()' *ngIf="!usuario.id else elseBlock" [disabled]="!usuarioForm.form.valid">Crear</button>
+          <ng-template #elseBlock>
+            <button class="btn btn-outline-primary" role="button" (click)='update()' [disabled]="!usuarioForm.form.valid">Editar</button>
+          </ng-template>
+        </div>
+      </div>
+
+    </form>
+
+
+  </div>
+</div>
