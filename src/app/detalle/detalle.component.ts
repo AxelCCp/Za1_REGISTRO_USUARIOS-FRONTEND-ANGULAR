@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router'; //SE USA PARA SUSCRIBIR CUANDO
 import { Usuario } from '../usuarios/usuario';
 import swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
+import { Input } from '@angular/core';
+import { FacturasService } from '../facturas/services/facturas.service';
+import { Factura } from '../facturas/models/factura';
 
 @Component({
   selector: 'app-detalle',
@@ -12,9 +15,10 @@ import { HttpEventType } from '@angular/common/http';
 })
 export class DetalleComponent implements OnInit {
 
-  constructor(usuarioService : UsuarioService,  activatedRoute : ActivatedRoute) {
+  constructor(usuarioService : UsuarioService,  activatedRoute : ActivatedRoute, facturasService : FacturasService) {
     this.usuarioService = usuarioService;
     this.activatedRoute = activatedRoute;
+    this.facturasService = facturasService;
   }
 
   ngOnInit(): void {
@@ -65,10 +69,51 @@ subirFoto(){
 }
 
 
+delete(factura : Factura) : void {
+
+  const swalWithBootstrapButtons = swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+  });
+
+
+  swalWithBootstrapButtons.fire({
+    title: 'Está seguro?',
+    text: `¿Seguro que desea eliminar la factura ${factura.descripcion} ?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    //confirmButtonClass: 'btn btn-success',
+    //cancelButtonClass: 'btn btn-danger',
+    confirmButtonText: 'Sí, eliminar!',
+    cancelButtonText: 'No, cancelar!',
+    //buttonsStyling: false,
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.facturasService.delete(factura.id).subscribe(response => {
+        //PARA ACTUALIZAR AUTOMÁTICAMENTE LA LISTA CON EL CLIENTE Q SE ELIMINÓ. SE USA FILTRO.
+        this.usuario.facturas = this.usuario.facturas.filter(f => f !== factura);
+        swalWithBootstrapButtons.fire(
+          'Factura eliminada!',
+          `Factura:  '${factura.descripcion}' eliminada con éxito!`,
+          'success'
+        )
+      })
+    }
+  })
+}
+
+
   title : string = "User Detail";
-  usuario : Usuario;
+  @Input() usuario : Usuario;
   private usuarioService : UsuarioService;
   private activatedRoute : ActivatedRoute;
   fotoSeleccionada : File;
   progreso : Number = 0;
+  facturasService : FacturasService;
 }

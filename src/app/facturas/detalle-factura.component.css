@@ -2,18 +2,14 @@ thead{
     text-align: center;
 }
 
-#boton{
+#detail{
     text-align: center;
 }
 
-#total{
+#price{
     text-align: right;
 }
 
-#folio{
+#cantidad{
     text-align: center;
-}
-
-#date{
-    text-align: center; 
 }

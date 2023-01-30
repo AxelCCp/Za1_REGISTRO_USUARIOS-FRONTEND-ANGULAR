@@ -1,6 +1,6 @@
 <div class="form-group row">
       <div class="col-sm-6">
-        <button class="btn btn-outline-secondary my-5 text-left" role="button" routerLink="/usuarios">Return</button>
+        <button class="btn btn-outline-secondary my-4 text-left" role="button" routerLink="/usuarios">&laquo; Return</button>
       </div>
 </div>
 
@@ -12,17 +12,14 @@
       <div class="row">
         <div class="col-sm">
 
-
-
-          <!--*ngIf="cliente" : se pone para q no de error en la consola, cuando se carga primero la página antes q el cliente.-->
           <ul *ngIf="usuario" class="list-group text-dark mb-3">
             <li class="list-group-item"><span style="color: #2E86C1;">Name : </span>{{usuario.nombre}}</li>
             <li class="list-group-item"><span style="color: #2E86C1;">Last name : </span>{{usuario.apellido}}</li>
             <li class="list-group-item"><span style="color: #2E86C1;">Email : </span>{{usuario.email}}</li>
             <li class="list-group-item"><span style="color: #2E86C1;">Phone number : </span>{{usuario.number}}</li>
             <li class="list-group-item"><span style="color: #2E86C1;">Age : </span>{{usuario.edad}}</li>
-            <li class="list-group-item"><span style="color: #2E86C1;">Region : </span>{{usuario.region.nombre.toUpperCase()}}</li>
-            <li class="list-group-item"><span style="color: #2E86C1;">Country : </span>{{usuario.pais.nombre.toUpperCase()}}</li>
+            <li class="list-group-item"><span style="color: #2E86C1;">Region : </span>{{usuario.region.nombre}}</li>
+            <li class="list-group-item"><span style="color: #2E86C1;">Country : </span>{{usuario.pais.nombre}}</li>
             <li class="list-group-item"><span style="color: #2E86C1;">Date : </span>{{usuario.createAt | date:"fullDate"}}</li>
           </ul>
 
@@ -31,7 +28,7 @@
           <!--seleccionarFoto($event) : con $event se accede al archivo q se está enviando en el front.   -->
           <div class="input-group mb-3">
             <input (change)="seleccionarFoto($event)" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-            <button (click)="subirFoto()" [disabled]="!fotoSeleccionada" class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Subir</button>
+            <button (click)="subirFoto()" [disabled]="!fotoSeleccionada" class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Upload</button>
           </div>
 
 
@@ -41,21 +38,54 @@
               {{progreso}}%
             </div>
           </div>
-
-
         </div>
 
+        
         <div class="col-sm" style="text-align:center;">
               <img *ngIf="!usuario?.foto" src="http://localhost:8080/images/devil_user.png" alt="Sin foto" class="img-thumbnail rounded" style="width:400px; cursor:pointer;">
               <img *ngIf="usuario?.foto" src="http://localhost:8080/api/uploads/img/{{usuario.foto}}" alt="{{usuario.foto}}" class="img-thumbnail rounded" style="width:400px; cursor:pointer;">
         </div>
 
-        <!--
-        <div class="col-sm">
-            ngIf : SI EXISTE EL CLIENTE Y LA FOTO, CARGA LA FOTO
-            <img *ngIf="cliente?.foto" src="http://localhost:8080/api/uploads/img/{{cliente.foto}}" alt="{{cliente.foto}}" class="img-thumbnail rounded">
+        
+
+
+        <div class="row" *ngIf="usuario">
+
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <button type="button" [routerLink]="['/facturas/form', usuario.id]" class="btn btn-outline-info my-1 text-left">Create a new invoice</button>
+            </div>
+          </div>
+
+          <div class="alert alert-info my-4" *ngIf="usuario.facturas.length==0">
+            No hay facturas asignadas para el usuario: {{usuario.nombre}} {{usuario.apellido}}.
+          </div>
+
+          <table class="table table-bordered table-striped my-4" *ngIf="usuario.facturas.length>0">
+            <thead>
+              <tr>
+                <th class="col-md-1">Folio</th>
+                <th>Description</th>
+                <th class="col-md-1">Date</th>
+                <th class="col-md-2">Total US$</th>
+                <th class="col-md-1">Detail</th>
+                <th class="col-md-1">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let factura of usuario.facturas">
+                <td id="folio">{{factura.id}}</td>
+                <td>{{factura.descripcion}}</td>
+                <td id="date">{{factura.createAt}}</td>
+                <td id="total">{{factura.total | currency: 'USD' | lowercase}}</td>
+                <td id="boton"><button type="button" class="btn btn-outline-success btn-sm" [routerLink]="['/facturas', factura.id]">View</button></td>
+                <td id="boton"><button type="button" class="btn btn-outline-danger btn-sm" (click)="delete(factura)">Delete</button></td>
+              
+              </tr>
+            </tbody>
+          </table>
         </div>
-        -->
+
 
       </div>
     </div>

@@ -5,7 +5,7 @@
     <h5 class="card-title">User list</h5>
 
     <div type="button" class="my-2 text-left">
-      <button type="button" class="btn btn-rouded btn-outline-info" [routerLink]="['/usuarios/form']">Create user</button>
+      <button type="button" class="btn btn-rouded btn-outline-info" [routerLink]="['/usuarios/form']">Create a new user</button>
     </div>
 
     <div *ngIf="usuarios?.length==0" class="alert alert-info">
@@ -45,8 +45,8 @@
           <td>{{usuario.region.nombre.toUpperCase()}}</td>
           <td>{{usuario.pais.nombre.toUpperCase()}}</td>
           <td>{{usuario.createAt}}</td>
-          <td><button  type="button" name="editar" [routerLink]="['/usuarios/form', usuario.id]" class="btn btn-outline-info btn-sm">Editar</button></td>
-          <td><button  type="button" name="eliminar" (click)='delete(usuario)' class="btn btn-outline-danger btn-sm">Eliminar</button></td>
+          <td><button  type="button" name="editar" [routerLink]="['/usuarios/form', usuario.id]" class="btn btn-outline-info btn-sm">Edit</button></td>
+          <td><button  type="button" name="eliminar" (click)='delete(usuario)' class="btn btn-outline-danger btn-sm">Delete</button></td>
         </tr>
       </tbody>
     </table>

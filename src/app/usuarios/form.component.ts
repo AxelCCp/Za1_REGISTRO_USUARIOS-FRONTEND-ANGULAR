@@ -36,7 +36,6 @@ export class FormComponent implements OnInit {
       }else {
         this.title = "Create user";
       }
-
     });
   }
 
@@ -71,10 +70,7 @@ export class FormComponent implements OnInit {
     }
   );
 }
-
-
-
-
+ 
 
   compararRegion(obj1:Region, obj2:Region) : boolean {
     //SI NO ESTÁ DEFINIDA LA REGIÓN, EN EL CREAR CLIENTE, MARCA "--- Seleccionar una región ---"
@@ -93,6 +89,10 @@ export class FormComponent implements OnInit {
     //SI AL COMPARAR, SON IGUALES, DEVUELVE TRUE, Y LO MUESTRA EN EL FORMULARIO.
     return obj1 === null || obj2 === null || obj1 === undefined || obj2 === undefined ? false : obj1.id === obj2.id;
   }
+
+  
+  
+
 
 title : string;
 usuario : Usuario = new Usuario();

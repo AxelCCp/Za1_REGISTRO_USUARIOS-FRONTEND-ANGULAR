@@ -1,5 +1,6 @@
 import { Region } from './region';
 import { Pais } from './pais';
+import { Factura } from '../facturas/models/factura';
 
 export class Usuario {
   id : number;
@@ -12,5 +13,6 @@ export class Usuario {
   pais : Pais;
   createAt : string;
   foto : string;
+  facturas : Factura[] = [];
 
 }

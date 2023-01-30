@@ -132,6 +132,7 @@ export class UsuarioService {
     return this.http.get<Region[]>(this.urlEndPoint + '/regiones');
   }
 
+
   public getPaises() : Observable<Pais[]>{
     return this.http.get<Pais[]>(this.urlEndPoint + '/paises');
   }

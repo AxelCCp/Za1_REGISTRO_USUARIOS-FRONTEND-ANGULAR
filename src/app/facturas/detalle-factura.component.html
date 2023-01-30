@@ -1,0 +1,60 @@
+
+<div class="card bg-light" *ngIf="factura">
+    <div class="card-header"><span style="color: #2E86C1;"><b>{{title}} : </b></span>{{factura.descripcion}}</div>
+    <div class="card-body">
+  
+      <h4 class="card-title">
+          <a [routerLink]="['/usuarios/ver', factura.usuario.id]" class="btn btn-outline-secondary btn-xs">&laquo; Return</a>
+      </h4>
+  
+      <ul class="list-group my-2">
+        <li class="list-group-item list-group-item-success">User details</li>
+        <li class="list-group-item"><span style="color: #2E86C1;">Name : </span>{{factura.usuario.nombre}}</li>
+        <li class="list-group-item"><span style="color: #2E86C1;">Last name : </span>{{factura.usuario.apellido}}</li>
+      </ul>
+  
+      <ul class="list-group my-2">
+        <li class="list-group-item list-group-item-success">Invoice details</li>
+        <li class="list-group-item"><span style="color: #2E86C1;">Folio : </span>{{factura.id}}</li>
+        <li class="list-group-item"><span style="color: #2E86C1;">Description : </span>{{factura.descripcion}}</li>
+        <li class="list-group-item"><span style="color: #2E86C1;">Date : </span>{{factura.createAt}}</li>
+      </ul>
+  
+      <table class="table table-striped table-hover table-bordered my-3">
+        <thead>
+          <tr>
+            <th>Products</th>
+            <th class="col-md-1">Price US$</th>
+            <th class="col-md-1">Quantity</th>
+            <th class="col-md-1">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of factura.items">
+            <td>{{item.producto.nombre}}</td>
+            <td id="price">{{item.producto.precio | currency: 'USD' | lowercase}}</td>
+            <td id="cantidad">{{item.cantidad}}</td>
+            <td id="price">{{item.importe | currency: 'USD' | lowercase}}</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <h2 align=right >
+        <span>Grand total US$</span> :
+        <span class="badge bg-outline-primary"><h2 style="color: rgb(17, 17, 17);">{{factura.total | currency: 'USD' | lowercase}}</h2></span>
+      </h2>
+  
+      <div class="list-group my-2">
+        <div class="list-group-item list-group-item-success">
+            Observations
+        </div>
+        <div class="card card-body">
+          <p *ngIf="!factura.observacion">It has no observations.</p>
+          <p *ngIf="factura.observacion">{{factura.observacion}}</p>
+        </div>
+      </div>
+  
+    </div>
+  
+  </div>
+  
